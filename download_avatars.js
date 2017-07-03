@@ -23,6 +23,17 @@ function getRepoContributors(repoOwner, repoName, callback) {
     headers: {'user-agent': 'lpenstone'},
   };
 
+//Downoad image
+function downloadImageByURL(url, filePath) {
+  request.get(url)
+  .on('error', function (err) { //if there is an error requesting the data
+    throw err;
+  })
+  .on('response', function (response) { //display status of downloads
+    console.log('Download for ' + filePath + ' complete.');
+  })
+  .pipe(fs.createWriteStream(filePath)); //save avatar images in folder with user's name
+}
 
 
   request(options, function(err, response, body){
@@ -39,24 +50,12 @@ function getRepoContributors(repoOwner, repoName, callback) {
       }
 
       for (var user in json){ //get avater URL and name for each contributor
-        var avatar = json[user].avatar_url;
-        var name = json[user].login;
-        downloadImageByURL(avatar, name);
+        var avatarURL = json[user].avatar_url;
+        var desiredFilePath = './avatars/' + json[user].login + '.jpg';
+        downloadImageByURL(avatarURL, desiredFilePath);
       }
     }
   });
 }
 
-//Downoad image
-function downloadImageByURL(url, filePath) {
-  request.get(url)
-  .on('error', function (err) { //if there is an error requesting the data
-    throw err;
-  })
-  .on('response', function (response) { //display status of downloads
-    console.log('Response Status Code for ' + filePath + ': ' + response.statusMessage + '\nContent Type: ' + response.headers['content-type']);
-    console.log('Download complete.');
-  })
-  .pipe(fs.createWriteStream('./avatars/' + filePath + '.jpg')); //save avatar images in folder with user's name
-}
 
