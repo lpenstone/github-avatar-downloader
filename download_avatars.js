@@ -16,18 +16,6 @@ getRepoContributors(owner, name, function(err, result) {
   console.log("Result:", result);
 });
 
-
-function getRepoContributors(repoOwner, repoName, callback) {
-  var GITHUB_USER = "lpenstone";
-  var GITHUB_TOKEN = "84e700921c00da35fa0bd0e885a827f855b671bd";
-  var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
-
-
-  var options = {
-    url: requestURL,
-    headers: {'user-agent': 'lpenstone'},
-  };
-
 //Downoad image
 function downloadImageByURL(url, filePath) {
   request.get(url)
@@ -40,6 +28,15 @@ function downloadImageByURL(url, filePath) {
   .pipe(fs.createWriteStream(filePath)); //save avatar images in folder with user's name
 }
 
+function getRepoContributors(repoOwner, repoName, callback) {
+  var GITHUB_USER = "lpenstone";
+  var GITHUB_TOKEN = "84e700921c00da35fa0bd0e885a827f855b671bd";
+  var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
+
+  var options = {
+    url: requestURL,
+    headers: {'user-agent': 'lpenstone'},
+  };
 
   request(options, function(err, response, body){
     if (err){
