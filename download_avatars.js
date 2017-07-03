@@ -5,6 +5,11 @@ var myArgs = process.argv.slice(2);
 var owner = myArgs[0];
 var name = myArgs[1];
 
+if (!myArgs [0] || !myArgs [1]){ //If the request is incorrect
+  console.log('Error! Please submit request in the form: "node download_avatars.js <owner> <repo>".')
+  return
+}
+
 
 getRepoContributors(owner, name, function(err, result) {
   console.log("Errors:", err);
