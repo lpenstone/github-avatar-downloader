@@ -1,9 +1,15 @@
+require('dotenv').config();
 var request = require('request');
 var fs = require('fs');
 
 var myArgs = process.argv.slice(2);
 var owner = myArgs[0];
 var name = myArgs[1];
+
+secret = {
+  user: process.env.GITHUB_USER,
+  token: process.env.GITHUB_TOKEN
+}
 
 if (!myArgs [0] || !myArgs [1]){ //If the request is incorrect
   console.log('Error! Please submit request in the form: "node download_avatars.js <owner> <repo>".')
@@ -28,9 +34,10 @@ function downloadImageByURL(url, filePath) {
   .pipe(fs.createWriteStream(filePath)); //save avatar images in folder with user's name
 }
 
+
 function getRepoContributors(repoOwner, repoName, callback) {
-  var GITHUB_USER = "lpenstone";
-  var GITHUB_TOKEN = "84e700921c00da35fa0bd0e885a827f855b671bd";
+  var GITHUB_USER = secret.user;
+  var GITHUB_TOKEN = secret.token;
   var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
 
   var options = {
