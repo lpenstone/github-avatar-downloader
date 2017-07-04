@@ -6,7 +6,7 @@ var myArgs = process.argv.slice(2);
 var owner = myArgs[0];
 var name = myArgs[1];
 
-secret = {
+var secret = {
   user: process.env.GITHUB_USER,
   token: process.env.GITHUB_TOKEN
 }
